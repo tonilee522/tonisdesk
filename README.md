@@ -22,7 +22,7 @@ You can view the site live here: [https://tonisdesk.com](https://tonisdesk.com)
 └── README.md
 
 ## ✉️ Contact
-The site includes a contact form powered by [Formspree](https://formspree.io) (or your chosen service). Visitors can reach me directly from the contact page.
+The site includes a contact form powered by [Formspree](https://formspree.io). Visitors can reach me directly from the contact page.
 
 ## ✏️ Future Plans
 - Add a blog engine 
