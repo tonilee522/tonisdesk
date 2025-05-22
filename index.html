@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toni's Desk - A Personal Journey Through Healing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            color: #333;
+            background-color: #f8f5f0;
+            overflow-x: hidden;
+            background-image: url('images/sunrise_background.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .parallax-container {
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 1px;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .parallax-background {
+            display: none;
+        }
+        
+        .content {
+            transform: translateZ(0);
+            position: relative;
+            background-color: transparent;
+        }
+        
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        
+        .header-content {
+            z-index: 1;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        
+        .navigation {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #3a5a40;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-tab {
+            text-decoration: none;
+            color: #3a5a40;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-tab:hover {
+            color: #588157;
+        }
+        
+        .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #588157;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-tab:hover::after {
+            width: 100%;
+        }
+        
+        .main-content {
+            background-color: transparent;
+            position: relative;
+            z-index: 1;
+            padding: 2rem 0;
+        }
+        
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: rgba(248, 245, 240, 0.7);
+            margin-bottom: 10vh;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #3a5a40;
+            font-weight: 400;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: #588157;
+        }
+        
+        .section-content {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .text-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        section img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        section img:hover {
+            transform: scale(1.05);
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: #588157;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #3a5a40;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .connect-btn {
+            background-color: #a3b18a;
+        }
+        
+        footer {
+            background-color: #3a5a40;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #a3b18a;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .section-content {
+                flex-direction: column;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Alternating sections */
+        section:nth-child(even) .section-content {
+            flex-direction: row-reverse;
+        }
+        
+        @media (max-width: 768px) {
+            section:nth-child(even) .section-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navigation">
+        <div class="nav-container">
+            <div class="logo">Toni's Desk</div>
+            <nav class="nav-tabs">
+                <a href="#" class="nav-tab">Blogs/Vlogs</a>
+                <a href="#" class="nav-tab">Today's Highlight</a>
+                <a href="#" class="nav-tab">Resources</a>
+                <a href="#" class="nav-tab">Mission</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="parallax-container">
+        <div class="parallax-layer parallax-background"></div>
+        <div class="parallax-layer content">
+            <header>
+                <div class="header-content">
+                    <h1>Toni's Desk</h1>
+                    <div class="subtitle">A Personal Journey Through Healing</div>
+                    <a href="#connect" class="btn connect-btn">Connect With Me</a>
+                </div>
+            </header>
+
+            <div class="main-content">
+                <section id="universe">
+                    <h2 class="section-title">Amazing How The Universe Works</h2>
+                    <div class="section-content">
+                        <div class="text-content">
+                            <p>There is a profound intelligence that orchestrates the cosmic dance of stars, planets, and all living beings. When we tune into this universal wisdom, we begin to see patterns, synchronicities, and guidance that have always been present.</p>
+                            <p>At Toni's Desk, I explore how connecting with universal energy can transform our healing journey and reveal the perfect timing of all things. Through mindfulness and awareness, we discover that the universe is always working with us, not against us.</p>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
+                        <div class="image-container">
+                            <img src="images/kate moss and me at 95.JPEG" alt="Universe and Cosmos" />
+                        </div>
+                    </div>
+                </section>
+
+                <section id="healing">
+                    <h2 class="section-title">Healing Of Core Wounds</h2>
+                    <div class="section-content">
+                        <div class="text-content">
+                            <p>Our deepest wounds often form in childhood and continue to shape our adult lives until we bring them into the light of awareness. The journey of healing these core wounds is not about erasing the past, but about transforming our relationship with it.</p>
+                            <p>Together, we'll explore gentle yet powerful approaches to identify and heal these foundational hurts, creating space for authentic self-expression and deeper connections with others. Through this healing journey, we reclaim parts of ourselves that have long been hidden or suppressed.</p>
+                            <a href="#" class="btn">Explore Healing</a>
+                        </div>
+                        <div class="image-container">
+                            <img src="images/Child giving gift to adult self.jpeg" alt="Healing Journey" />
+                        </div>
+                    </div>
+                </section>
+
+                <section id="identity">
+                    <h2 class="section-title">Connecting To Your True Identity</h2>
+                    <div class="section-content">
+                        <div class="text-content">
+                            <p>Beneath the layers of conditioning, expectations, and adaptations lies your authentic self—radiant, whole, and complete. Discovering and embracing this true identity is perhaps the most liberating aspect of the healing journey.</p>
+                            <p>This path involves peeling away what no longer serves you and nurturing a deep, loving relationship with your essential nature. As you connect with your true self, you'll experience greater clarity, purpose, and an unshakeable sense of inner peace that transcends external circumstances.</p>
+                            <a href="#" class="btn">Discover Your Truth</a>
+                        </div>
+                        <div class="image-container">
+                            <img src="images/Onion over radiant heart.jpeg" alt="True Identity" />
+                        </div>
+                    </div>
+                </section>
+
+                <section id="connect">
+                    <h2 class="section-title">Connect With Me</h2>
+                    <div class="section-content">
+                        <div class="text-content">
+                            <p>I believe that healing happens in community, through authentic connection and shared wisdom. Whether you're just beginning your healing journey or well along the path, I'd love to connect with you.</p>
+                            <p>Reach out to share your story, ask questions, or explore how we might work together. Every message is received with care and responded to personally.</p>
+                            <a href="#" class="btn connect-btn">Send a Message</a>
+                        </div>
+                        <div class="image-container">
+                            <img src="images/Toni.jpeg" alt="Connect" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer>
+                <div class="footer-content">
+                    <p>&copy; 2025 Toni's Desk - A Personal Journey Through Healing</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
