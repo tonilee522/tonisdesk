@@ -238,6 +238,71 @@
         .connect-btn {
             background-color: #a3b18a;
         }
+
+        /* Contact form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .contact-form label {
+            font-weight: 500;
+            color: #3a5a40;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #cdd6c4;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #588157;
+            box-shadow: 0 0 0 3px rgba(88, 129, 87, 0.15);
+        }
+
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .form-status.success {
+            color: #3a5a40;
+        }
+
+        .form-status.error {
+            color: #a94442;
+        }
+
+        .contact-form .btn {
+            align-self: flex-start;
+        }
+
+        /* Honeypot field - hidden from real visitors, traps bots */
+        .contact-form .hp-field {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
         
         footer {
             background-color: #3a5a40;
@@ -375,7 +440,29 @@
                         <div class="text-content">
                             <p>I believe that healing happens in community, through authentic connection and shared wisdom. Whether you're just beginning your healing journey or well along the path, I'd love to connect with you.</p>
                             <p>Reach out to share your story, ask questions, or explore how we might work together. Every message is received with care and responded to personally.</p>
-                            <a href="#" class="btn connect-btn">Send a Message</a>
+
+                            <form id="contact-form" class="contact-form" action="https://formspree.io/f/xojgzvkp" method="POST">
+                                <div>
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div>
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div>
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                </div>
+                                <!-- Honeypot field to catch bots - real visitors won't see or fill this -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="_gotcha">Leave this field empty</label>
+                                    <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+                                </div>
+                                <input type="hidden" name="_subject" value="New message from Toni's Desk">
+                                <button type="submit" class="btn connect-btn">Send a Message</button>
+                                <p id="form-status" class="form-status" role="status"></p>
+                            </form>
                         </div>
                         <div class="image-container">
                             <img src="images/toni_result.webp" alt="Connect" />
@@ -397,5 +484,38 @@
             </footer>
         </div>
     </div>
+
+    <script>
+        const contactForm = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+
+        contactForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            formStatus.textContent = 'Sending...';
+            formStatus.className = 'form-status';
+
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formStatus.textContent = "Thank you — your message has been sent. I'll respond personally soon.";
+                    formStatus.className = 'form-status success';
+                    contactForm.reset();
+                } else {
+                    formStatus.textContent = "Something went wrong. Please try again, or email me directly.";
+                    formStatus.className = 'form-status error';
+                }
+            } catch (error) {
+                formStatus.textContent = "Something went wrong. Please try again, or email me directly.";
+                formStatus.className = 'form-status error';
+            }
+        });
+    </script>
 </body>
 </html>
